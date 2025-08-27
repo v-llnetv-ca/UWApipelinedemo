@@ -1,0 +1,53 @@
+# Core ML and CV libraries - Python 3.12 compatible
+torch>=2.1.0
+torchvision>=0.16.0
+torchaudio>=2.1.0
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+Pillow>=10.0.0
+
+# Audio processing
+librosa>=0.10.0
+soundfile>=0.12.0
+scipy>=1.11.0
+numpy>=1.24.0,<2.0.0
+
+# PANN - install manually if needed
+panns-inference>=0.1.0
+
+# Image similarity and hashing
+imagehash>=4.3.1
+
+# Web framework and API
+fastapi>=0.104.0
+uvicorn>=0.24.0
+python-multipart>=0.0.6
+websockets>=12.0
+jinja2>=3.1.0
+
+# Database
+sqlalchemy>=2.0.0
+alembic>=1.12.0
+# psycopg2-binary>=2.9.0  # Uncomment if using PostgreSQL
+
+# Utilities
+pandas>=2.1.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+tqdm>=4.66.0
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# File handling
+aiofiles>=23.2.0
+python-magic>=0.4.27
+
+# Logging and monitoring
+loguru>=0.7.0
+
+# Video processing
+moviepy==1.0.3
+ffmpeg-python>=0.2.0

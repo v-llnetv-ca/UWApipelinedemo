@@ -1,0 +1,334 @@
+{
+  "job_id": "job_1755985958079_cb15ee40",
+  "file_info": {
+    "path": "/Users/vullnetvoca/PycharmProjects/UWA_Pipeline_App/uploads/20250823_225238_fa32ef5c_tank.jpg",
+    "name": "20250823_225238_fa32ef5c_tank.jpg",
+    "size": 220458,
+    "type": "image"
+  },
+  "deduplication": {
+    "is_duplicate": false,
+    "duplicate_count": 0,
+    "duplicates": []
+  },
+  "detections": {
+    "object_detections": [
+      {
+        "class": "tank",
+        "class_id": "0",
+        "confidence": 0.9078946709632874,
+        "bbox": [
+          95.40031433105469,
+          157.47772216796875,
+          451.06463623046875,
+          283.7647705078125
+        ],
+        "timestamp": 0.0,
+        "center": [
+          273.23248291015625,
+          220.62124633789062
+        ],
+        "area": 44915.796875
+      },
+      {
+        "class": "tank",
+        "class_id": "0",
+        "confidence": 0.8585190176963806,
+        "bbox": [
+          392.6952209472656,
+          128.49713134765625,
+          690.6322021484375,
+          226.64907836914062
+        ],
+        "timestamp": 0.0,
+        "center": [
+          541.6636962890625,
+          177.57310485839844
+        ],
+        "area": 29243.095703125
+      },
+      {
+        "class": "tank",
+        "class_id": "0",
+        "confidence": 0.7273216843605042,
+        "bbox": [
+          67.16802978515625,
+          220.140869140625,
+          912.0584716796875,
+          488.5665283203125
+        ],
+        "timestamp": 0.0,
+        "center": [
+          489.6132507324219,
+          354.35369873046875
+        ],
+        "area": 226790.28125
+      }
+    ],
+    "audio_detections": [],
+    "fusion_results": {
+      "object_detections": [
+        {
+          "type": "object",
+          "class": "tank",
+          "confidence": 0.9078946709632874,
+          "timestamp": 0.0,
+          "source": "yolov8",
+          "metadata": {
+            "bbox": [
+              95.40031433105469,
+              157.47772216796875,
+              451.06463623046875,
+              283.7647705078125
+            ],
+            "center": [
+              273.23248291015625,
+              220.62124633789062
+            ],
+            "area": 44915.796875
+          }
+        },
+        {
+          "type": "object",
+          "class": "tank",
+          "confidence": 0.8585190176963806,
+          "timestamp": 0.0,
+          "source": "yolov8",
+          "metadata": {
+            "bbox": [
+              392.6952209472656,
+              128.49713134765625,
+              690.6322021484375,
+              226.64907836914062
+            ],
+            "center": [
+              541.6636962890625,
+              177.57310485839844
+            ],
+            "area": 29243.095703125
+          }
+        },
+        {
+          "type": "object",
+          "class": "tank",
+          "confidence": 0.7273216843605042,
+          "timestamp": 0.0,
+          "source": "yolov8",
+          "metadata": {
+            "bbox": [
+              67.16802978515625,
+              220.140869140625,
+              912.0584716796875,
+              488.5665283203125
+            ],
+            "center": [
+              489.6132507324219,
+              354.35369873046875
+            ],
+            "area": 226790.28125
+          }
+        }
+      ],
+      "audio_detections": [],
+      "all_detections_timeline": [
+        {
+          "type": "object",
+          "class": "tank",
+          "confidence": 0.9078946709632874,
+          "timestamp": 0.0,
+          "source": "yolov8",
+          "metadata": {
+            "bbox": [
+              95.40031433105469,
+              157.47772216796875,
+              451.06463623046875,
+              283.7647705078125
+            ],
+            "center": [
+              273.23248291015625,
+              220.62124633789062
+            ],
+            "area": 44915.796875
+          }
+        },
+        {
+          "type": "object",
+          "class": "tank",
+          "confidence": 0.8585190176963806,
+          "timestamp": 0.0,
+          "source": "yolov8",
+          "metadata": {
+            "bbox": [
+              392.6952209472656,
+              128.49713134765625,
+              690.6322021484375,
+              226.64907836914062
+            ],
+            "center": [
+              541.6636962890625,
+              177.57310485839844
+            ],
+            "area": 29243.095703125
+          }
+        },
+        {
+          "type": "object",
+          "class": "tank",
+          "confidence": 0.7273216843605042,
+          "timestamp": 0.0,
+          "source": "yolov8",
+          "metadata": {
+            "bbox": [
+              67.16802978515625,
+              220.140869140625,
+              912.0584716796875,
+              488.5665283203125
+            ],
+            "center": [
+              489.6132507324219,
+              354.35369873046875
+            ],
+            "area": 226790.28125
+          }
+        }
+      ],
+      "summary": {
+        "object_classes_detected": [
+          "tank"
+        ],
+        "audio_classes_detected": [],
+        "total_object_detections": 3,
+        "total_audio_detections": 0,
+        "time_range": {
+          "start": 0.0,
+          "end": 0.0,
+          "duration": 0.0
+        },
+        "all_tags": [
+          "tank"
+        ]
+      }
+    }
+  },
+  "summary": {
+    "all_tags": [
+      "tank"
+    ],
+    "object_classes": [
+      "tank"
+    ],
+    "audio_classes": [],
+    "total_detections": 3,
+    "timeline": [
+      {
+        "type": "object",
+        "class": "tank",
+        "confidence": 0.9078946709632874,
+        "timestamp": 0.0,
+        "source": "yolov8",
+        "metadata": {
+          "bbox": [
+            95.40031433105469,
+            157.47772216796875,
+            451.06463623046875,
+            283.7647705078125
+          ],
+          "center": [
+            273.23248291015625,
+            220.62124633789062
+          ],
+          "area": 44915.796875
+        }
+      },
+      {
+        "type": "object",
+        "class": "tank",
+        "confidence": 0.8585190176963806,
+        "timestamp": 0.0,
+        "source": "yolov8",
+        "metadata": {
+          "bbox": [
+            392.6952209472656,
+            128.49713134765625,
+            690.6322021484375,
+            226.64907836914062
+          ],
+          "center": [
+            541.6636962890625,
+            177.57310485839844
+          ],
+          "area": 29243.095703125
+        }
+      },
+      {
+        "type": "object",
+        "class": "tank",
+        "confidence": 0.7273216843605042,
+        "timestamp": 0.0,
+        "source": "yolov8",
+        "metadata": {
+          "bbox": [
+            67.16802978515625,
+            220.140869140625,
+            912.0584716796875,
+            488.5665283203125
+          ],
+          "center": [
+            489.6132507324219,
+            354.35369873046875
+          ],
+          "area": 226790.28125
+        }
+      }
+    ]
+  },
+  "performance": {
+    "object_detector_stats": {
+      "total_frames_processed": 1199,
+      "total_detections": 79,
+      "detections_by_class": {
+        "tank": 19,
+        "weapon": 60
+      },
+      "average_inference_time": 0.3383845857424573,
+      "average_fps": 2.955217353668393,
+      "min_inference_time": 0.2910490036010742,
+      "max_inference_time": 2.03753662109375,
+      "device": "cpu",
+      "model_loaded": true
+    },
+    "audio_detector_stats": {},
+    "deduplicator_stats": {
+      "total_processed": 2,
+      "duplicates_found": 1,
+      "processing_times": [
+        2.585376024246216,
+        0.08649086952209473
+      ],
+      "db_query_times": [
+        0.018411874771118164,
+        0.003962993621826172
+      ],
+      "avg_processing_time": 1.3359334468841553,
+      "total_processing_time": 2.6718668937683105,
+      "avg_query_time": 0.011187434196472168,
+      "total_query_time": 0.022374868392944336
+    },
+    "fusion_stats": {
+      "total_fusions": 2,
+      "object_detections_processed": 9,
+      "audio_detections_processed": 0,
+      "processing_times": [
+        3.2901763916015625e-05,
+        0.000202178955078125
+      ],
+      "avg_processing_time": 0.00011754035949707031,
+      "total_processing_time": 0.00023508071899414062
+    }
+  },
+  "metadata": {
+    "processed_at": "2025-08-23T22:52:38.741730",
+    "processing_time": null,
+    "pipeline_version": "1.0"
+  }
+}

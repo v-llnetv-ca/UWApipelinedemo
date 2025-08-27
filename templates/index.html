@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>War Detection Pipeline - Multi-Modal Analysis</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- D3.js for spectrogram visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="title">
+                <i class="fas fa-radar"></i>
+                War Detection Pipeline
+            </h1>
+            <p class="subtitle">Multi-Modal Object & Audio Detection System</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Left Panel: Video/Image Display -->
+        <div class="left-panel">
+            <!-- Upload Area -->
+            <div class="upload-section" id="upload-section">
+                <div class="upload-area" id="upload-area">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <h3>Upload War Footage</h3>
+                    <p>Drop video/image files here or click to browse</p>
+                    <input type="file" id="file-input" accept="video/*,image/*" style="display: none;">
+                    <button class="upload-btn" onclick="document.getElementById('file-input').click()">
+                        <i class="fas fa-folder-open"></i> Choose File
+                    </button>
+                </div>
+
+                <!-- Upload Progress -->
+                <div class="upload-progress" id="upload-progress" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="upload-progress-fill"></div>
+                    </div>
+                    <p class="progress-text" id="upload-progress-text">Uploading...</p>
+                </div>
+            </div>
+
+            <!-- Media Display -->
+            <div class="media-display" id="media-display" style="display: none;">
+                <!-- Video Player -->
+                <div class="video-container" id="video-container" style="display: none;">
+                    <video id="video-player" controls preload="metadata">
+                        Your browser does not support video playback.
+                    </video>
+
+                    <!-- Video Controls Overlay -->
+                    <div class="video-overlay">
+                        <div class="detection-overlay" id="detection-overlay"></div>
+                    </div>
+                </div>
+
+                <!-- Image Display -->
+                <div class="image-container" id="image-container" style="display: none;">
+                    <img id="image-display" alt="Uploaded image">
+                    <div class="detection-overlay" id="image-detection-overlay"></div>
+                </div>
+
+                <!-- Media Info -->
+                <div class="media-info" id="media-info">
+                    <h3 id="media-title">No file selected</h3>
+                    <div class="media-details">
+                        <span class="detail-item" id="file-size">Size: --</span>
+                        <span class="detail-item" id="file-type">Type: --</span>
+                        <span class="detail-item" id="file-duration">Duration: --</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Processing Status -->
+            <div class="processing-status" id="processing-status" style="display: none;">
+                <div class="status-header">
+                    <h3>Processing Status</h3>
+                    <span class="status-badge" id="status-badge">Processing</span>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="processing-progress-fill"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span id="progress-percentage">0%</span>
+                        <span id="current-step">Initializing...</span>
+                    </div>
+                </div>
+
+                <div class="processing-steps" id="processing-steps">
+                    <div class="step" data-step="1">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Checking for duplicates</span>
+                    </div>
+                    <div class="step" data-step="2">
+                        <i class="fas fa-eye"></i>
+                        <span>Object detection</span>
+                    </div>
+                    <div class="step" data-step="3">
+                        <i class="fas fa-volume-up"></i>
+                        <span>Audio detection</span>
+                    </div>
+                    <div class="step" data-step="4">
+                        <i class="fas fa-merge"></i>
+                        <span>Multi-modal fusion</span>
+                    </div>
+                    <div class="step" data-step="5">
+                        <i class="fas fa-save"></i>
+                        <span>Saving results</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Analysis Results -->
+        <div class="right-panel">
+            <!-- Top Right: Spectrogram -->
+            <div class="spectrogram-section">
+                <div class="panel-header">
+                    <h3><i class="fas fa-waveform"></i> Audio Spectrogram</h3>
+                    <div class="panel-controls">
+                        <button class="control-btn" id="spectrogram-toggle">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="spectrogram-container" id="spectrogram-container">
+                    <div class="spectrogram-placeholder" id="spectrogram-placeholder">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Audio spectrogram will appear here after processing</p>
+                    </div>
+                    <div class="spectrogram-content" id="spectrogram-content" style="display: none;">
+                        <svg id="spectrogram-svg"></svg>
+                        <div class="spectrogram-controls">
+                            <label for="db-range-slider">dB Range:</label>
+                            <input type="range" id="db-range-slider" min="-100" max="0" value="-80">
+                            <span id="db-range-value">-80 dB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Right: Detection Results & Timeline -->
+            <div class="results-section">
+                <div class="panel-header">
+                    <h3><i class="fas fa-tags"></i> Detection Results</h3>
+                    <div class="results-summary" id="results-summary">
+                        <span class="summary-item">Objects: <span id="object-count">0</span></span>
+                        <span class="summary-item">Audio: <span id="audio-count">0</span></span>
+                        <span class="summary-item">Total: <span id="total-count">0</span></span>
+                    </div>
+                </div>
+
+                <!-- Tags Display -->
+                <div class="tags-container" id="tags-container">
+                    <div class="tags-placeholder">
+                        <i class="fas fa-search"></i>
+                        <p>Detection tags will appear here after processing</p>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="timeline-section">
+                    <h4><i class="fas fa-timeline"></i> Detection Timeline</h4>
+                    <div class="timeline-container" id="timeline-container">
+                        <div class="timeline-placeholder">
+                            <i class="fas fa-clock"></i>
+                            <p>Timeline will show detection events with timestamps</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Results -->
+                <div class="detailed-results" id="detailed-results" style="display: none;">
+                    <div class="results-tabs">
+                        <button class="tab-btn active" data-tab="object">Object Detection</button>
+                        <button class="tab-btn" data-tab="audio">Audio Detection</button>
+                        <button class="tab-btn" data-tab="fusion">Fusion Results</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-panel active" id="object-tab">
+                            <div class="results-list" id="object-results-list"></div>
+                        </div>
+                        <div class="tab-panel" id="audio-tab">
+                            <div class="results-list" id="audio-results-list"></div>
+                        </div>
+                        <div class="tab-panel" id="fusion-tab">
+                            <div class="results-list" id="fusion-results-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="system-info">
+                    <p>War Detection Pipeline v1.0 | Multi-Modal Analysis System</p>
+                    <div class="tech-stack">
+                        <span class="tech-item">YOLOv8m</span>
+                        <span class="tech-item">PANN</span>
+                        <span class="tech-item">FastAPI</span>
+                        <span class="tech-item">D3.js</span>
+                    </div>
+                </div>
+                <div class="connection-status">
+                    <span class="status-indicator" id="ws-status">
+                        <i class="fas fa-circle"></i> Connecting...
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>Processing War Footage</h3>
+            <p id="loading-message">Initializing detection pipeline...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/spectrogram.js"></script>
+
+    <!-- Configuration -->
+    <script>
+        // Pass configuration from backend to frontend
+        window.CONFIG = {
+            maxFileSize: {{ config.max_file_size }},
+            allowedFormats: {{ config.allowed_formats | tojson }},
+            spectrogramConfig: {{ config.frontend_config.spectrogram | tojson }},
+            wsUrl: `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws`,
+            apiUrl: `${window.location.protocol}//${window.location.host}`
+        };
+    </script>
+</body>
+</html>
