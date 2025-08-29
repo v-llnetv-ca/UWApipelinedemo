@@ -12,10 +12,14 @@ class SpectrogramVisualizer {
         this.xScale = null;
         this.yScale = null;
 
+       // Get actual container dimensions
+        const container = document.getElementById('spectrogram-container');
+        const containerWidth = container ? container.clientWidth - 20 : 800
+
         // Configuration
         this.config = {
-            width: 450,
-            height: 180,
+            width: containerWidth,
+            height: 80,
             margin: { top: 10, right: 10, bottom: 30, left: 40 },
             colorScheme: 'viridis', // Professional color scheme
             dbRange: [-80, 0], // dB range for visualization
