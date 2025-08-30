@@ -14,7 +14,7 @@ class SpectrogramVisualizer {
 
        // Get actual container dimensions
         const container = document.getElementById('spectrogram-container');
-        const containerWidth = container ? container.clientWidth - 20 : 800
+        const containerWidth = container ? container.clientWidth - 30 : 800;
 
         // Configuration
         this.config = {

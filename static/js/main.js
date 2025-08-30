@@ -95,16 +95,15 @@ class WarDetectionApp {
     }
 
     hideAllSections() {
-        const mediaDisplay = document.getElementById('media-display');
-        const processingSta
+            const mediaDisplay = document.getElementById('media-display');
+            const processingStatus = document.getElementById('processing-status');
+            const detailedResults = document.getElementById('detailed-results');
 
-tus = document.getElementById('processing-status');
-        const detailedResults = document.getElementById('detailed-results');
+            if (mediaDisplay) mediaDisplay.style.display = 'none';
+            if (processingStatus) processingStatus.style.display = 'none';
+            if (detailedResults) detailedResults.style.display = 'none';
+        }
 
-        if (mediaDisplay) mediaDisplay.style.display = 'none';
-        if (processingStatus) processingStatus.style.display = 'none';
-        if (detailedResults) detailedResults.style.display = 'none';
-    }
 
     initWebSocket() {
         console.log('Connecting to WebSocket...');
@@ -457,31 +456,52 @@ tus = document.getElementById('processing-status');
     }
 
     displayResults(results) {
-        console.log('Displaying results:', results);
+      console.log('Displaying results:', results);
 
-        const objectCount = document.getElementById('object-count');
-        const audioCount = document.getElementById('audio-count');
-        const totalCount = document.getElementById('total-count');
+      const objectCount = document.getElementById('object-count');
+      const audioCount  = document.getElementById('audio-count');
+      const totalCount  = document.getElementById('total-count');
 
-        if (!results.summary && results.audio_detections) {
-            // Handle audio-only results
-            if (objectCount) objectCount.textContent = '0';
-            if (audioCount) audioCount.textContent = results.audio_detections.length;
-            if (totalCount) totalCount.textContent = results.audio_detections.length;
+      if (!results.summary && results.audio_detections) {
+        // Audio-only results
+        if (objectCount) objectCount.textContent = '0';
+        if (audioCount)  audioCount.textContent  = results.audio_detections.length;
+        if (totalCount)  totalCount.textContent  = results.audio_detections.length;
 
-            const audioTags = results.audio_detections.map(det => det.class_name || det.label).filter(Boolean);
-            this.displayTags(audioTags);
-            this.displayTimeline([]);
-        } else {
-            // Handle full pipeline results
-            if (objectCount) objectCount.textContent = results.summary?.object_classes?.length || 0;
-            if (audioCount) audioCount.textContent = results.summary?.audio_classes?.length || 0;
-            if (totalCount) totalCount.textContent = results.summary?.total_detections || 0;
+        const audioTags = results.audio_detections
+          .map(det => det.class || det.class_name || det.label)
+          .filter(Boolean)
+          .map(text => ({ type: 'audio', text }));
 
-            this.displayTags(results.summary?.all_tags || []);
-            this.displayTimeline(results.summary?.timeline || []);
-        }
+        this.displayTags(audioTags);      // your displayTags should add class like `tag audio`
+        this.displayTimeline([]);
+        return;
+      }
+
+      // Full pipeline results (summary present)
+      const objectTags = results.summary?.object_classes || [];
+      const audioTags  = results.summary?.audio_classes  || [];
+
+      if (objectCount) objectCount.textContent = objectTags.length;
+      if (audioCount)  audioCount.textContent  = audioTags.length;
+
+      const total = results.summary?.total_detections ??
+                    (objectTags.length + audioTags.length);
+      if (totalCount) totalCount.textContent = total;
+
+      // Merge, dedupe, and type
+      const typed = [
+        ...objectTags.map(text => ({ type: 'object', text })),
+        ...audioTags.map(text  => ({ type: 'audio',  text })),
+      ];
+      // Deduplicate by text while keeping first type
+      const seen = new Set();
+      const allTags = typed.filter(t => (seen.has(t.text) ? false : (seen.add(t.text), true)));
+
+      this.displayTags(allTags);
+      this.displayTimeline(results.summary?.timeline || []);
     }
+
 
     async displaySpectrogram(results) {
         try {
@@ -507,41 +527,32 @@ tus = document.getElementById('processing-status');
         }
     }
 
-    setupSpectrogramControls() {
-        const dbRangeSlider = document.getElementById('db-range-slider');
-        const dbRangeValue = document.getElementById('db-range-value');
-
-        if (dbRangeSlider && window.currentSpectrogram && dbRangeValue) {
-            dbRangeSlider.addEventListener('input', (e) => {
-                const maxDb = parseInt(e.target.value);
-                const minDb = maxDb - 80;
-
-                window.currentSpectrogram.updateDbRange(minDb, maxDb);
-                dbRangeValue.textContent = `${maxDb} dB`;
-            });
-        }
-    }
-
     displayTags(tags) {
         const container = document.getElementById('tags-container');
         if (!container) return;
 
-        if (tags.length === 0) {
+        if (!tags || tags.length === 0) {
             container.innerHTML = `
-                <div class="tags-placeholder">
-                    <p>No war-related content detected</p>
-                </div>
+              <div class="tags-placeholder">
+                <p>No war-related content detected</p>
+              </div>
             `;
             return;
-        }
+            }
 
         const tagsList = tags.map(tag => {
-            const tagClass = this.getTagClass(tag);
-            return `<span class="tag ${tagClass}">${tag.replace('_', ' ')}</span>`;
+            // normalize: if object, pick a usable field
+            const text = (typeof tag === 'string')
+              ? tag
+              : (tag.text || tag.label || tag.class || tag.class_name || '');
+
+            const tagClass = this.getTagClass(text);
+            return `<span class="tag ${tagClass}">${text.replace(/_/g, ' ')}</span>`;
         }).join('');
 
         container.innerHTML = `<div class="tags-list">${tagsList}</div>`;
     }
+
 
     displayTimeline(timeline) {
         const container = document.getElementById('timeline-container');

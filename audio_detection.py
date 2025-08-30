@@ -21,7 +21,7 @@ try:
 
     PANN_AVAILABLE = True
 except ImportError:
-    print("⚠️  PANN not available. Install with: pip install panns-inference")
+    print("PANN not available. Install with: pip install panns-inference")
     PANN_AVAILABLE = False
 
 from config import (
@@ -71,7 +71,7 @@ class WarAudioDetector:
         # Class mappings for specific war sounds (AudioSet indices)
         self.war_classes = {
             "gunshot_gunfire": [427],  # "Gunshot, gunfire" - AudioSet class 427
-            "helicopter": [393],  # "Helicopter" - AudioSet class 393
+            "helicopter": [339],  # "Helicopter" - AudioSet class 339
             "explosion": [426],  # "Explosion" - AudioSet class 426
         }
 
@@ -220,6 +220,7 @@ class WarAudioDetector:
                         max_confidence = max(max_confidence, confidence)
 
                 # Apply threshold
+                print(f"[DEBUG] {class_name}: max_conf={max_confidence:.3f}, thr={self.config['confidence_threshold']}")
                 if max_confidence >= self.config["confidence_threshold"]:
                     detection = {
                         "class": class_name,

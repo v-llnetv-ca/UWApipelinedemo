@@ -54,7 +54,7 @@ AUDIO_DETECTION_CONFIG = {
     "n_mels": 128,
     "win_length": 2048,
     "window": "hann",
-    "confidence_threshold": 0.6,
+    "confidence_threshold": 0.2, #very low threshold for now
     "classes": {
         "gunshot_gunfire": "Gunshot, gunfire",
         "helicopter": "Helicopter",
