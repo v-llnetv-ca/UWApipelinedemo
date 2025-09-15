@@ -184,9 +184,6 @@ The application uses a SQLite database (`deduplication.db`) to store media finge
 This demo version has several limitations compared to the full pipeline:
 
 - **No Deduplication**: Fast mode skips media similarity analysis
-- **In-Memory Storage**: Job results stored in application memory
-- **Single Instance**: Not designed for horizontal scaling
 
-For production use, consider the full `media_processor.py` pipeline with deduplication capabilities.
 
 
