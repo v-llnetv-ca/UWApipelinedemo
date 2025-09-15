@@ -175,31 +175,9 @@ Upload → Validation → Processing Queue → Analysis Pipeline → Results Sto
 The application uses a SQLite database (`deduplication.db`) to store media fingerprints and similarity data for duplicate detection:
 
 - **Location**: Created automatically in the application root directory
-- **Purpose**: Stores perceptual hashes and metadata for uploaded media
-- **Persistence**: Data persists across application restarts
-- **Growth**: Database size increases with each unique media file processed
-
-### Database Maintenance
-
-```bash
-# Check database size
-ls -lh deduplication.db
-
-# Reset deduplication data (caution: removes all fingerprint history)
-rm deduplication.db
-
-# Backup deduplication database
-cp deduplication.db deduplication_backup_$(date +%Y%m%d).db
-```
 
 **Note**: In the demo version (`app.py`), fast processing mode skips deduplication checks, but the database may still be created and maintained by the underlying `MediaProcessor` components.
 
-## Development
-
-### Running in Development Mode
-```bash
-uvicorn app:app --reload --host 0.0.0.0 --port 8000
-```
 
 ## Limitations
 
